@@ -1851,7 +1851,7 @@
 
 //testing
 
-const API = window.location.protocol === "file:" ? "http://localhost:5050" : "";
+const API = "https://studyverseai-backend.onrender.com";
 const TOKEN_KEY = "smartStudyToken";
 const USER_KEY = "smartStudyUser";
 
