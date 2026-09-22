@@ -1,0 +1,1201 @@
+<!-- <!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="Smart Study AI — a personal learning and productivity workspace.">
+  <title>Smart Study AI</title>
+  <link rel="stylesheet" href="/style.css?v=20260920-studyplus2">
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-visual">
+      <div class="brand brand-large"><span class="logo"><img src="logostudyverse.jpeg" alt="logo"></span>
+        <div><b>Smart Study AI</b><small>AI learning + productivity workspace</small></div>
+      </div>
+      <div class="auth-copy">
+        <span class="eyebrow">YOUR LEARNING OS</span>
+        <h1>Study smarter.<br><span>Build faster.</span></h1>
+        <p>One workspace for AI tutoring, notes, research, quizzes, productivity, collaboration and interview
+          preparation.</p>
+        <div class="auth-highlights">
+          <div><span>✦</span><b>Multi-agent AI</b><small>One shared AI core with provider fallbacks.</small></div>
+          <div><span>▣</span><b>Personal progress</b><small>Learning history, quizzes and study planning.</small></div>
+          <div><span>◉</span><b>Work anywhere</b><small>Responsive web experience for phones, tablets and
+              laptops.</small></div>
+        </div>
+      </div>
+      <p class="auth-footnote">Your account keeps your learning data separate from other users.</p>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-card">
+        <div class="mobile-brand brand"><span class="logo">✦</span>
+          <div><b>Smart Study AI</b><small>Learning workspace</small></div>
+        </div>
+        <div class="auth-heading">
+          <span class="eyebrow">SECURE WORKSPACE</span>
+          <h2 id="authTitle">Welcome back</h2>
+          <p id="authSubtitle">Continue your learning session across study, research and productivity tools.</p>
+        </div>
+        <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+          <button id="loginTab" type="button" class="auth-tab active">Sign in</button>
+          <button id="registerTab" type="button" class="auth-tab">Create account</button>
+        </div>
+        <form id="authForm" novalidate>
+          <input id="authMode" type="hidden" value="login">
+          <label id="authNameWrap" class="field hidden"><span>Full name</span><input id="authName" autocomplete="name"
+              placeholder="Your name"></label>
+          <label class="field"><span>Email</span><input id="authEmail" type="email" autocomplete="email"
+              inputmode="email" placeholder="you@example.com" required></label>
+          <label class="field"><span>Password</span>
+            <div class="password-wrap"><input id="authPassword" type="password" autocomplete="current-password"
+                minlength="6" placeholder="At least 6 characters" required><button id="togglePassword"
+                type="button">Show</button></div>
+          </label>
+          <button id="authSubmit" class="primary auth-submit" type="submit">Sign in</button>
+          <button id="forgotPasswordBtn" class="link-btn" type="button">Forgot password?</button>
+          <div id="resetPanel" class="reset-panel hidden"><input id="resetEmail" type="email"
+              placeholder="Account email"><button id="requestReset" class="secondary" type="button">Send reset
+              link</button><input id="resetToken" placeholder="Reset token"><input id="resetNewPassword" type="password"
+              minlength="6" placeholder="New password"><button id="resetPasswordBtn" class="primary" type="button">Reset
+              password</button><small id="resetHelp">A reset link is emailed when a delivery provider is configured;
+              local development can optionally expose a token.</small></div>
+          <div id="authMessage" class="auth-message" role="alert"></div>
+        </form>
+        <p class="auth-privacy">By continuing, you use the Smart Study AI workspace with your own account and saved
+          learning data.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="appShell" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="logo">✦</span>
+        <div><b>Smart Study AI</b><small>AI learning + productivity workspace</small></div>
+      </div>
+      <div class="top-actions">
+        <span id="connectionStatus" class="status-pill neutral">Checking…</span>
+        <button id="openDashboardPage" class="top-action desktop-only">Learning dashboard</button>
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">☾</button>
+        <div class="user-menu">
+          <span id="avatar" class="avatar">S</span>
+          <div class="user-meta"><b id="userName">Student</b><small id="userEmail"></small></div>
+          <button id="logout" class="top-action danger-outline">Logout</button>
+        </div>
+        <button id="mobileMenuToggle" class="icon-btn mobile-only" aria-label="Open navigation">☰</button>
+      </div>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav">
+      <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+      <div class="nav-group-label">STUDY</div>
+      <button class="nav" data-section="tutor">◈ <span>AI Tutor</span></button>
+      <button class="nav" data-section="packs">▤ <span>Study Packs</span></button>
+      <button class="nav" data-section="flashcards">◇ <span>Flashcards</span></button>
+      <button class="nav" data-section="quizzes">✓ <span>Quizzes</span></button>
+      <button class="nav" data-section="learning">📚 <span>Learning plan</span></button>
+      <button class="nav" data-section="email">✉ <span>Gmail</span></button>
+      <button class="nav" data-section="calendar">▣ <span>Calendar</span></button>
+      <button class="nav" data-section="research">⌕ <span>Research</span></button>
+      <button class="nav" data-section="rooms">◉ <span>Study Rooms</span></button>
+      <button class="nav" data-section="voice">◌ <span>Voice</span></button>
+      <button class="nav" data-section="video">▶ <span>Videos</span></button>
+      <button class="nav" data-section="developer">⌘ <span>Coding + Interview</span></button>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Main navigation">
+        <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+        <div class="nav-group-label">STUDY</div>
+        <button class="nav" data-section="tutor">◈ <span>AI Tutor</span></button>
+        <button class="nav" data-section="packs">▤ <span>Study Packs</span></button>
+        <button class="nav" data-section="flashcards">◇ <span>Flashcards</span></button>
+        <button class="nav" data-section="quizzes">✓ <span>Quizzes</span></button>
+        <button class="nav" data-section="learning">📚 <span>Learning plan</span></button>
+        <button class="nav" data-section="email">✉ <span>Gmail</span></button>
+        <button class="nav" data-section="calendar">▣ <span>Calendar</span></button>
+        <button class="nav" data-section="research">⌕ <span>Research</span></button>
+        <button class="nav" data-section="rooms">◉ <span>Study Rooms</span></button>
+        <button class="nav" data-section="voice">◌ <span>Voice</span></button>
+        <button class="nav" data-section="video">▶ <span>Videos</span></button>
+        <button class="nav" data-section="developer">⌘ <span>Coding + Interview</span></button>
+      </aside>
+
+      <main class="content">
+        <section id="dashboard" class="section active">
+          <div class="hero">
+            <div><span class="eyebrow">PERSONAL LEARNING OS</span>
+              <h1 id="welcomeTitle">Welcome, Student</h1>
+              <p>Study, build, research and prepare from one account. Your AI, learning progress and productivity tools
+                are connected.</p>
+            </div>
+            <div class="hero-actions"><button id="refreshDashboard" class="secondary"
+                type="button">Refresh</button><button class="primary hero-action" data-go="tutor">Start studying
+                <span>→</span></button></div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>Today</span><strong id="statStudy">0 min</strong><small>Study time</small>
+            </article>
+            <article class="stat-card"><span>Quiz average</span><strong id="statQuiz">0%</strong><small>Recent
+                performance</small></article>
+            <article class="stat-card"><span>Flashcards</span><strong id="statCards">0</strong><small>Due for
+                review</small></article>
+            <article class="stat-card"><span>Daily progress</span><strong id="statProgress">0%</strong><small
+                id="weakTopicSummary">No weak topics detected yet</small></article>
+          </div>
+          <div class="card adaptive-dashboard-card" id="adaptiveDashboardCard">
+            <div class="adaptive-head">
+              <div><span class="eyebrow">ADAPTIVE ENGINE</span>
+                <h2 id="adaptiveTitle">Your next study move</h2>
+                <p id="adaptiveReason" class="muted">Learning data is being analyzed to choose what you should study
+                  next.</p>
+              </div>
+              <span id="adaptiveModeBadge" class="adaptive-mode-badge">LEARN</span>
+            </div>
+            <div class="adaptive-flow-mini"><span class="active">1 · Learn</span><span>→</span><span>2 ·
+                Practice</span><span>→</span><span>3 · Revise</span><span>→</span><span>Next pack</span></div>
+            <div class="adaptive-data" id="adaptiveData"><span>Loading learning data…</span></div>
+            <div class="adaptive-actions"><button id="adaptiveNextPackBtn" class="primary" type="button">Build next
+                study pack</button><button id="adaptiveRefreshBtn" class="secondary" type="button">Refresh</button>
+            </div>
+          </div>
+          <div class="grid cards feature-grid">
+            <button class="feature-card" data-go="tutor"><span>🧠</span><b>AI Tutor</b><small>Ask questions and get
+                clean, copy-ready LLM explanations.</small></button>
+            <button class="feature-card" data-go="packs"><span>▤</span><b>Study Packs</b><small>Turn your own notes into
+                summaries, flashcards and real practice quizzes.</small></button>
+            <button class="feature-card" data-go="flashcards"><span>◇</span><b>Flashcards</b><small>Review with active
+                recall and spaced repetition.</small></button>
+            <button class="feature-card" data-go="quizzes"><span>✓</span><b>Quizzes</b><small>Take saved quizzes without
+                seeing answers until submission.</small></button>
+            <button class="feature-card" data-go="email"><span>✉</span><b>Gmail</b><small>Read, search and send mail
+                after Google OAuth.</small></button>
+            <button class="feature-card" data-go="calendar"><span>▣</span><b>Calendar</b><small>Track exams, assignments
+                and deadlines.</small></button>
+            <button class="feature-card" data-go="research"><span>⌕</span><b>Research</b><small>Search current sources
+                and keep citations visible.</small></button>
+            <button class="feature-card" data-go="rooms"><span>◉</span><b>Study Rooms</b><small>Collaborate with shared
+                chat and notes.</small></button>
+            <button class="feature-card" data-go="voice"><span>◌</span><b>Voice</b><small>Speak to the assistant when
+                your browser supports it.</small></button>
+            <button class="feature-card" data-go="video"><span>▶</span><b>Videos</b><small>Find educational videos
+                without consuming Gemini quota.</small></button>
+            <button class="feature-card" data-go="developer"><span>⌘</span><b>Developer tools</b><small>Coding and interview practice.</small></button>
+          </div>
+          <div class="card">
+            <div class="section-head">
+              <div><span class="eyebrow">PRODUCTIVITY</span>
+                <h2>Today's tasks</h2>
+                <p>Private to your account.</p>
+              </div><button class="secondary" id="refreshTodosBtn">Refresh</button>
+            </div>
+            <form id="todoForm" class="inline-form"><input id="todoTitle" placeholder="Add a study task…" required
+                maxlength="200"><input id="todoDueDate" type="date" aria-label="Due date"><select id="todoPriority"
+                aria-label="Priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select><button class="primary" type="submit">Add task</button></form>
+            <div id="todoList" class="list"></div>
+            <div id="todoStats" class="muted"></div>
+          </div>
+        </section>
+
+        <section id="tutor" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">AI TUTOR · LLM</span>
+              <h1>Ask a real study question</h1>
+              <p>Your question is sent through the LLM gateway, reviewed for unsupported claims, and returned as clean,
+                copy-ready study material.</p>
+            </div>
+            <div class="section-title-actions"><span class="trust-badge">● LLM powered</span><span class="trust-badge">✓
+                Copy ready</span></div>
+          </div>
+          <div class="tutor-mode-bar">
+            <button class="mode-card active" data-tutor-mode="normal"><b>Normal</b><small>Clear explanation with
+                examples</small></button>
+            <button class="mode-card" data-tutor-mode="beginner"><b>Beginner</b><small>Simple language and small
+                steps</small></button>
+            <button class="mode-card" data-tutor-mode="socratic"><b>Socratic</b><small>Questions that guide your
+                thinking</small></button>
+            <button class="mode-card" data-tutor-mode="exam"><b>Exam</b><small>Scoring, traps and key
+                points</small></button>
+            <button class="mode-card" data-tutor-mode="interview"><b>Interview</b><small>Answer, feedback and
+                follow-ups</small></button>
+            <button class="mode-card" data-tutor-mode="revision"><b>Revision</b><small>Active recall and rapid
+                review</small></button>
+          </div>
+          <div class="card tutor-card">
+            <div class="card-title-row">
+              <div>
+                <h2 id="tutorHeading">Normal tutor</h2>
+                <p id="tutorModeDescription">Clear explanations, examples and practical next steps.</p>
+              </div>
+              <div class="tutor-status"><span class="mini-status">LIVE LLM</span><span class="mini-status">SOURCE
+                  AWARE</span></div>
+            </div>
+            <div class="toolbar"><label class="upload-chip"><input id="chatImageInput" type="file" accept="image/*">📷
+                Add image</label><span id="imagePreviewName" class="muted"></span></div>
+            <div id="chatBox" class="chat" aria-live="polite"></div>
+            <div class="composer"><textarea id="userInput" rows="3" maxlength="12000"
+                placeholder="Ask a question, paste a problem, or explain what you are stuck on…"></textarea><button
+                id="micBtn" class="icon-btn" type="button" aria-label="Use microphone">🎙</button><button id="sendBtn"
+                class="primary" type="button">Ask tutor</button></div>
+          </div>
+        </section>
+
+        <section id="packs" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">STUDY PACKS · LLM</span>
+              <h1>Turn your material into a study kit</h1>
+              <p>Use your notes or files as the source. The LLM builds a grounded summary, recall cards and a real
+                practice quiz from that material.</p>
+            </div>
+            <div class="section-title-actions"><span class="trust-badge">6 flashcards</span><span class="trust-badge">4
+                MCQs</span></div>
+          </div>
+          <div class="card pack-builder">
+            <div class="grid two">
+              <div><label class="field-label" for="studyText">Notes or textbook extract</label><textarea id="studyText"
+                  class="big-input" maxlength="100000"
+                  placeholder="Paste your notes here. Use a complete chapter, lecture or topic for the strongest pack."></textarea>
+              </div>
+              <div><label class="field-label" for="pdfInput">Files</label><input id="pdfInput" class="file-input"
+                  type="file"
+                  accept="application/pdf,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.odt,.odp,.ods,.txt,.md,.csv,.json,.html,.htm,.rtf,image/*"
+                  multiple>
+                <div class="upload-help"><b>Supported</b><span>PDF · Word · PowerPoint  · TXT 
+                   · images</span><small>Maximum 15 MB per file. Text is extracted
+                    from documents, OCR is used for image text, and the material stays tied to your account.</small>
+                </div>
+              </div>
+            </div>
+            <div class="pack-controls"><label><span>Learning style</span><select id="packStyle">
+                  <option value="balanced">Balanced mastery</option>
+                  <option value="exam">Exam focused</option>
+                  <option value="quick">Quick revision</option>
+                  <option value="deep">Deep understanding</option>
+                  <option value="interview">Interview prep</option>
+                </select></label><label><span>Difficulty</span><select id="packDifficulty">
+                  <option value="adaptive">Adaptive</option>
+                  <option value="easy">Beginner</option>
+                  <option value="medium">Intermediate</option>
+                  <option value="hard">Advanced</option>
+                </select></label><label><span>Target exam / role</span><input id="packExam" maxlength="100"
+                  placeholder="GATE, university exam, interview…"></label><label><span>Focus</span><input id="packFocus"
+                  maxlength="160" placeholder="Formulas, coding, theory, weak area…"></label></div>
+            <div class="pack-options"><span class="pack-spec">Up to 12 flashcards</span><span class="pack-spec">Up to 10
+                MCQs</span><span class="pack-spec">Memory tricks</span><span class="pack-spec">Cheat sheet</span><span
+                class="pack-spec">7-day revision</span><span class="pack-spec">Learning methods</span></div>
+            <div class="learning-loop" aria-label="Study pack learning loop">
+              <article class="loop-step active"><span>01</span>
+                <div><b>LEARN</b><small>AI Tutor · Notes · Examples · Shortcuts</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>02</span>
+                <div><b>PRACTICE</b><small>Quiz · MCQs · Problems · Challenge</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>03</span>
+                <div><b>REVISE</b><small>Flashcards · Mistakes · Memory Tricks · Active Recall</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>04</span>
+                <div><b>ADAPT</b><small>Learning data → next study pack</small></div>
+              </article>
+            </div><button id="analyzeBtn" class="primary" type="button">Build my complete study pack</button>
+            <div id="analysisOutput"></div>
+          </div>
+        </section>
+
+        <section id="flashcards" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">FLASHCARDS</span>
+              <h1>Review what you know</h1>
+              <p>Use active recall and spaced repetition. Rate each card honestly so your review schedule adapts.</p>
+            </div><button id="refreshFlashcards" class="secondary">Refresh</button>
+          </div>
+          <div class="study-toolbar"><span id="flashcardProgress" class="muted">Loading your cards…</span><button
+              id="reviewDueOnly" class="secondary active-filter">Due only</button><button id="reviewAllCards"
+              class="secondary">All cards</button></div>
+          <div class="learning-dashboard-strip">
+            <div class="card mini-analytics">
+              <div class="card-title-row">
+                <div>
+                  <h3>Flashcard mastery</h3>
+                  <p>Known, due and review load from your saved cards.</p>
+                </div><span class="mini-status">LIVE</span>
+              </div>
+              <div id="flashcardAnalytics">
+                <p class="muted">Loading analytics…</p>
+              </div>
+            </div>
+            <div class="card mini-analytics">
+              <div class="card-title-row">
+                <div>
+                  <h3>How to review</h3>
+                  <p>Use the card as an active-recall test before revealing the answer.</p>
+                </div>
+              </div>
+              <div class="learning-rule"><b>1. Recall first</b><span>Say or write the answer before flipping.</span>
+              </div>
+              <div class="learning-rule"><b>2. Rate honestly</b><span>Again/Hard when uncertain; Good/Easy only when
+                  recall is strong.</span></div>
+              <div class="learning-rule"><b>3. Revisit weak cards</b><span>Unknown cards become the next
+                  priority.</span></div>
+            </div>
+          </div>
+          <div id="flashcardWorkspace" class="flashcard-workspace"></div>
+        </section>
+
+        <section id="quizzes" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">QUIZZES</span>
+              <h1>Practice without seeing the answers</h1>
+              <p>Take a quiz, choose an answer, submit it, then review your score and weak areas.</p>
+            </div><button id="refreshQuizzes" class="secondary">Refresh</button>
+          </div>
+          <div class="card mini-analytics quiz-insights">
+            <div class="card-title-row">
+              <div>
+                <h3>Quiz performance</h3>
+                <p>Your recent scores help decide what to revise next.</p>
+              </div><button id="refreshQuizInsights" class="secondary">Refresh</button>
+            </div>
+            <div id="quizAnalytics">
+              <p class="muted">Take a quiz to build your performance trend.</p>
+            </div>
+          </div>
+          <div id="quizLibrary" class="quiz-library"></div>
+          <div id="quizRunner" class="hidden"></div>
+        </section>
+
+        <section id="learning" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">ADAPTIVE LEARNING</span>
+              <h1>Build a plan that adapts to you</h1>
+              <p>Use exam date, subjects, available hours and weak topics to generate a personalized plan.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="grid three"><input id="planGoal" placeholder="Goal, e.g. GATE CSE preparation"><input
+                id="planExamDate" type="date"><input id="planHours" type="number" min="0.5" max="24" step="0.5"
+                value="2" placeholder="Hours/day"></div><input id="planSubjects" class="wide-input"
+              placeholder="Subjects separated by commas"><input id="planWeakTopics" class="wide-input"
+              placeholder="Weak topics separated by commas"><button id="adaptivePlanBtn" class="primary"
+              type="button">Generate adaptive plan</button>
+            <div id="adaptivePlanOutput" class="rich"></div>
+          </div>
+          <div class="grid two">
+            <div class="card">
+              <h2>Reminders</h2>
+              <div class="inline-form"><input id="reminderTitle" placeholder="Review DBMS normalization"><input
+                  id="reminderAt" type="datetime-local"><button id="addReminder" class="primary">Add</button></div>
+              <div id="reminderList" class="list"></div>
+            </div>
+            <div class="card">
+              <h2>Learning modes</h2>
+              <p class="muted">Your tutor mode changes the response strategy, not just the label.</p>
+              <div class="mode-grid"><button class="mode-card" data-tutor-mode="beginner">Beginner<small>Simple,
+                    step-by-step</small></button><button class="mode-card"
+                  data-tutor-mode="normal">Normal<small>Balanced teaching</small></button><button class="mode-card"
+                  data-tutor-mode="socratic">Socratic<small>Guided discovery</small></button><button class="mode-card"
+                  data-tutor-mode="exam">Exam<small>Scoring + traps</small></button><button class="mode-card"
+                  data-tutor-mode="interview">Interview<small>Follow-ups</small></button><button class="mode-card"
+                  data-tutor-mode="revision">Revision<small>Active recall</small></button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="email" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">EMAIL</span>
+              <h1>Gmail workspace</h1>
+              <p>Read, search, summarize and send messages after Google OAuth.</p>
+            </div><button id="connectGmail" class="primary">Connect Gmail</button>
+          </div>
+          <div class="card">
+            <div class="inline-form"><input id="emailSearch"
+                placeholder="Search Gmail, e.g. from:professor@example.com"><button id="loadMail" class="secondary">Load
+                inbox</button><button id="triageMail" class="primary">AI triage → tasks</button></div>
+            <div id="emailTriageOutput" class="rich"></div>
+            <div id="emailList" class="list"></div>
+          </div>
+          <div class="card">
+            <h2>Compose</h2>
+            <div class="grid two"><input id="mailTo" placeholder="To"><input id="mailSubject" placeholder="Subject">
+            </div><textarea id="mailBody" class="big-input" placeholder="Message"></textarea><button id="sendMail"
+              class="primary" type="button">Send email</button>
+          </div>
+        </section>
+
+        <section id="calendar" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">CALENDAR</span>
+              <h1>Events + deadlines</h1>
+              <p>Keep assignments and study commitments together.</p>
+            </div><button id="connectCalendar" class="primary">Connect Calendar</button>
+          </div>
+          <div class="card">
+            <div class="inline-form"><button id="loadEvents" class="secondary">Load next 30 days</button></div>
+            <div id="eventList" class="list"></div>
+          </div>
+          <div class="card">
+            <h2>Add deadline / event</h2>
+            <div class="grid two"><input id="eventTitle" placeholder="Exam / assignment"><input id="eventLocation"
+                placeholder="Location (optional)"><input id="eventStart" type="datetime-local"><input id="eventEnd"
+                type="datetime-local"></div><textarea id="eventDescription" class="big-input"
+              placeholder="Description"></textarea><button id="createEvent" class="primary" type="button">Create
+              event</button>
+          </div>
+        </section>
+
+        <section id="research" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">RESEARCH</span>
+              <h1>Search the live web with sources</h1>
+              <p>Research uses the configured web-grounding provider and shows returned source links.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="inline-form"><input id="researchQuery" maxlength="500" placeholder="Research a topic…"><button
+                id="researchBtn" class="primary">Search + summarize</button></div>
+            <div id="researchAnswer" class="rich"></div>
+            <div id="researchSources" class="sources"></div>
+          </div>
+        </section>
+
+        <section id="rooms" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">COLLABORATION</span>
+              <h1>Shared study rooms</h1>
+              <p>Real-time room chat and shared notes.</p>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card">
+              <h2>Create or join</h2>
+              <div class="inline-form"><input id="roomName" maxlength="40" placeholder="Your name"><button
+                  id="createRoom" class="primary">Create room</button></div>
+              <div class="inline-form"><input id="roomCode" maxlength="16" placeholder="Room code"><input
+                  id="roomInviteToken" maxlength="64" placeholder="Invite token"><button id="joinRoom"
+                  class="secondary">Join</button></div>
+              <p id="roomStatus" class="muted">Not connected</p>
+              <div id="members" class="chips"></div>
+            </div>
+            <div class="card">
+              <h2>Room chat</h2>
+              <div id="roomChat" class="chat"></div>
+              <div class="composer"><input id="roomMessage" maxlength="2000"
+                  placeholder="Message your study group…"><button id="sendRoomMessage" class="primary">Send</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Shared workspace</h2>
+            <div class="inline-form"><input id="roomDocumentId" placeholder="Document ID to share"><input
+                id="roomDocumentTitle" placeholder="Document title"><button id="shareRoomDocument"
+                class="secondary">Share document</button></div>
+            <div class="inline-form"><input id="roomQuizTopic" placeholder="Quiz topic"><button id="createRoomQuiz"
+                class="secondary">Generate shared quiz</button><button id="askRoomTutor" class="primary">Ask room
+                AI</button></div><textarea id="sharedNotes" class="big-input" maxlength="20000"
+              placeholder="Everyone in the room can edit these notes…"></textarea>
+            <div id="roomSharedContent" class="rich"></div>
+          </div>
+        </section>
+
+        <section id="voice" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">VOICE</span>
+              <h1>Speak to your study assistant</h1>
+              <p>Uses browser speech APIs when supported by your device and browser.</p>
+            </div>
+          </div>
+          <div class="card center"><button id="voiceStart" class="voice-orb" type="button"
+              aria-label="Start voice input">🎙</button>
+            <h2 id="voiceState">Ready</h2>
+            <p id="voiceTranscript" class="muted">Press the microphone and speak.</p><div id="voiceAnswer" class="rich voice-answer"></div><button id="voiceSpeakLast"
+              class="secondary" type="button">Speak last AI answer</button>
+          </div>
+        </section>
+
+        <section id="video" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">VIDEO LEARNING</span>
+              <h1>Learn a topic visually</h1>
+              <p>Generate an LLM lesson from your material, or search real educational videos when you want an external
+                source.</p>
+            </div>
+          </div>
+          <div class="video-workspace-grid">
+            <div class="card video-ai-builder">
+              <div class="card-title-row">
+                <div>
+                  <h2>AI lesson</h2>
+                  <p>Creates a structured lesson, slides, objectives and narration from your topic or notes.</p>
+                </div><span class="mini-status">LLM GENERATED</span>
+              </div>
+              <div class="inline-form"><input id="videoQuery" maxlength="200"
+                  placeholder="Topic, e.g. binary search"><button id="generateVideoBtn" class="primary">Create
+                  lesson</button></div><textarea id="videoMaterial" class="big-input"
+                placeholder="Optional: paste the exact notes you want the lesson to follow…"></textarea>
+              <div id="generatedVideo" class="lesson-player"></div>
+            </div>
+            <div class="card video-search-builder">
+              <div class="card-title-row">
+                <div>
+                  <h2>Real videos</h2>
+                  <p>Search educational videos from YouTube. Results stay separate from the LLM lesson.</p>
+                </div><span class="mini-status">EXTERNAL SOURCES</span>
+              </div>
+              <div class="inline-form"><input id="videoSearchQuery" maxlength="200"
+                  placeholder="Search real videos"><button id="videoBtn" class="secondary">Find videos</button></div>
+              <div id="videoList" class="video-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="developer" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">CODING + INTERVIEW</span>
+              <h1>Developer and career tools</h1>
+              <p>Use the shared AI gateway for coding and interview workflows.</p>
+            </div>
+          </div>
+          <div class="tabs"><button class="tab active" data-tab="codingTab">Coding</button><button class="tab"
+              data-tab="interviewTab">Interview</button></div>
+          <div id="codingTab" class="tab-panel active card">
+            <div class="grid two"><input id="codeLanguage" value="JavaScript" placeholder="Language"><input
+                id="codeProblem" maxlength="12000" placeholder="Problem / bug description"></div><textarea
+              id="codeInput" class="codebox" maxlength="50000" placeholder="Paste your code…"></textarea>
+            <div class="button-row"><button id="solveCode" class="primary">Solve / debug</button><button id="runCode"
+                class="secondary">Run tests</button></div>
+            <div id="codeOutput" class="rich"></div>
+            <div id="runOutput" class="terminal-output"></div>
+          </div>
+          <div id="interviewTab" class="tab-panel card">
+            <div class="grid three"><input id="interviewRole" value="Software Engineer"><select id="interviewLevel">
+                <option>entry</option>
+                <option>mid</option>
+                <option>senior</option>
+              </select><input id="interviewTopic" value="general"></div><button id="newQuestion"
+              class="primary">Generate 5 questions</button>
+            <div id="interviewQuestion" class="rich"></div><textarea id="interviewAnswer" class="big-input"
+              placeholder="Write your answer…"></textarea><button id="evaluateAnswer" class="secondary">Evaluate
+              answer</button>
+            <div id="interviewFeedback" class="rich"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js?v=20260922-research-study-fixed-v6"></script>
+</body>
+
+</html> -->
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090d18">
+  <link rel="icon" type="image/jpeg" href="/logostudyverse.jpeg">
+  <meta name="description" content="StudyVerse AI — a personal learning and productivity workspace.">
+  <title>StudyVerse AI</title>
+  <link rel="stylesheet" href="/style.css?v=20260920-studyplus2">
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-visual">
+      <div class="brand brand-large"><span class="logo"><img class="brand-logo" style="width: 20px; height: 20px;" src="/logostudyverse.jpeg" alt="StudyVerse AI logo"></span>
+        <div><b>StudyVerse AI</b><small>AI learning + productivity workspace</small></div>
+      </div>
+      <div class="auth-copy">
+        <span class="eyebrow">YOUR LEARNING OS</span>
+        <h1>Study smarter.<br><span>Build faster.</span></h1>
+        <p>One workspace for AI tutoring, notes, research, quizzes, productivity, collaboration and interview
+          preparation.</p>
+        <div class="auth-highlights">
+          <div><span>✦</span><b>Multi-agent AI</b><small>One shared AI core with provider fallbacks.</small></div>
+          <div><span>▣</span><b>Personal progress</b><small>Learning history, quizzes and study planning.</small></div>
+          <div><span>◉</span><b>Work anywhere</b><small>Responsive web experience for phones, tablets and
+              laptops.</small></div>
+        </div>
+      </div>
+      <p class="auth-footnote">Your account keeps your learning data separate from other users.</p>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-card">
+        <div class="mobile-brand brand"><span class="logo"><img class="brand-logo" src="/logostudyverse.jpeg" alt="StudyVerse AI logo"></span>
+          <div><b>StudyVerse AI</b><small>Learning workspace</small></div>
+        </div>
+        <div class="auth-heading">
+          <span class="eyebrow">SECURE WORKSPACE</span>
+          <h2 id="authTitle">Welcome back</h2>
+          <p id="authSubtitle">Continue your learning session across study, research and productivity tools.</p>
+        </div>
+        <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+          <button id="loginTab" type="button" class="auth-tab active">Sign in</button>
+          <button id="registerTab" type="button" class="auth-tab">Create account</button>
+        </div>
+        <form id="authForm" novalidate>
+          <input id="authMode" type="hidden" value="login">
+          <label id="authNameWrap" class="field hidden"><span>Full name</span><input id="authName" autocomplete="name"
+              placeholder="Your name"></label>
+          <label class="field"><span>Email</span><input id="authEmail" type="email" autocomplete="email"
+              inputmode="email" placeholder="you@example.com" required></label>
+          <label class="field"><span>Password</span>
+            <div class="password-wrap"><input id="authPassword" type="password" autocomplete="current-password"
+                minlength="6" placeholder="At least 6 characters" required><button id="togglePassword"
+                type="button">Show</button></div>
+          </label>
+          <button id="authSubmit" class="primary auth-submit" type="submit">Sign in</button>
+          <button id="forgotPasswordBtn" class="link-btn" type="button">Forgot password?</button>
+          <div id="resetPanel" class="reset-panel hidden"><input id="resetEmail" type="email"
+              placeholder="Account email"><button id="requestReset" class="secondary" type="button">Send reset
+              link</button><input id="resetToken" placeholder="Reset token"><input id="resetNewPassword" type="password"
+              minlength="6" placeholder="New password"><button id="resetPasswordBtn" class="primary" type="button">Reset
+              password</button><small id="resetHelp">A reset link is emailed when a delivery provider is configured;
+              local development can optionally expose a token.</small></div>
+          <div id="authMessage" class="auth-message" role="alert"></div>
+        </form>
+        <p class="auth-privacy">By continuing, you use the StudyVerse AI workspace with your own account and saved
+          learning data.</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="appShell" class="hidden">
+    <header class="topbar">
+      <div class="brand"><span class="logo"><img class="brand-logo" style="width: 40px; height: 40px;" src="/logostudyverse.jpeg" alt="StudyVerse AI logo"></span>
+        <div><b>StudyVerse AI</b><small>AI learning + productivity workspace</small></div>
+      </div>
+      <div class="top-actions">
+        <span id="connectionStatus" class="status-pill neutral">Checking…</span>
+        <button id="openDashboardPage" class="top-action desktop-only">Learning dashboard</button>
+        <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">☾</button>
+        <div class="user-menu">
+          <span id="avatar" class="avatar">S</span>
+          <div class="user-meta"><b id="userName">Student</b><small id="userEmail"></small></div>
+          <button id="logout" class="top-action danger-outline">Logout</button>
+        </div>
+        <button id="mobileMenuToggle" class="icon-btn mobile-only" aria-label="Open navigation">☰</button>
+      </div>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav">
+      <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+      <div class="nav-group-label">STUDY</div>
+      <button class="nav" data-section="tutor">◈ <span>AI Tutor</span></button>
+      <button class="nav" data-section="packs">▤ <span>Study Packs</span></button>
+      <button class="nav" data-section="flashcards">◇ <span>Flashcards</span></button>
+      <button class="nav" data-section="quizzes">✓ <span>Quizzes</span></button>
+      <button class="nav" data-section="learning">📚 <span>Learning plan</span></button>
+      <button class="nav" data-section="email">✉ <span>Gmail</span></button>
+      <button class="nav" data-section="calendar">▣ <span>Calendar</span></button>
+      <button class="nav" data-section="research">⌕ <span>Research</span></button>
+      <button class="nav" data-section="rooms">◉ <span>Study Rooms</span></button>
+      <button class="nav" data-section="voice">◌ <span>Voice</span></button>
+      <button class="nav" data-section="video">▶ <span>Videos</span></button>
+      <button class="nav" data-section="developer">⌘ <span>Coding + Interview</span></button>
+    </div>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="Main navigation">
+        <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+        <div class="nav-group-label">STUDY</div>
+        <button class="nav" data-section="tutor">◈ <span>AI Tutor</span></button>
+        <button class="nav" data-section="packs">▤ <span>Study Packs</span></button>
+        <button class="nav" data-section="flashcards">◇ <span>Flashcards</span></button>
+        <button class="nav" data-section="quizzes">✓ <span>Quizzes</span></button>
+        <button class="nav" data-section="learning">📚 <span>Learning plan</span></button>
+        <button class="nav" data-section="email">✉ <span>Gmail</span></button>
+        <button class="nav" data-section="calendar">▣ <span>Calendar</span></button>
+        <button class="nav" data-section="research">⌕ <span>Research</span></button>
+        <button class="nav" data-section="rooms">◉ <span>Study Rooms</span></button>
+        <button class="nav" data-section="voice">◌ <span>Voice</span></button>
+        <button class="nav" data-section="video">▶ <span>Videos</span></button>
+        <button class="nav" data-section="developer">⌘ <span>Coding + Interview</span></button>
+      </aside>
+
+      <main class="content">
+        <section id="dashboard" class="section active">
+          <div class="hero">
+            <div><span class="eyebrow">PERSONAL LEARNING OS</span>
+              <h1 id="welcomeTitle">Welcome, Student</h1>
+              <p>Study, build, research and prepare from one account. Your AI, learning progress and productivity tools
+                are connected.</p>
+            </div>
+            <div class="hero-actions"><button id="refreshDashboard" class="secondary"
+                type="button">Refresh</button><button class="primary hero-action" data-go="tutor">Start studying
+                <span>→</span></button></div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>Today</span><strong id="statStudy">0 min</strong><small>Study time</small>
+            </article>
+            <article class="stat-card"><span>Quiz average</span><strong id="statQuiz">0%</strong><small>Recent
+                performance</small></article>
+            <article class="stat-card"><span>Flashcards</span><strong id="statCards">0</strong><small>Due for
+                review</small></article>
+            <article class="stat-card"><span>Daily progress</span><strong id="statProgress">0%</strong><small
+                id="weakTopicSummary">No weak topics detected yet</small></article>
+          </div>
+          <div class="card adaptive-dashboard-card" id="adaptiveDashboardCard">
+            <div class="adaptive-head">
+              <div><span class="eyebrow">ADAPTIVE ENGINE</span>
+                <h2 id="adaptiveTitle">Your next study move</h2>
+                <p id="adaptiveReason" class="muted">Learning data is being analyzed to choose what you should study
+                  next.</p>
+              </div>
+              <span id="adaptiveModeBadge" class="adaptive-mode-badge">LEARN</span>
+            </div>
+            <div class="adaptive-flow-mini"><span class="active">1 · Learn</span><span>→</span><span>2 ·
+                Practice</span><span>→</span><span>3 · Revise</span><span>→</span><span>Next pack</span></div>
+            <div class="adaptive-data" id="adaptiveData"><span>Loading learning data…</span></div>
+            <div class="adaptive-actions"><button id="adaptiveNextPackBtn" class="primary" type="button">Build next
+                study pack</button><button id="adaptiveRefreshBtn" class="secondary" type="button">Refresh</button>
+            </div>
+          </div>
+          <div class="grid cards feature-grid">
+            <button class="feature-card" data-go="tutor"><span>🧠</span><b>AI Tutor</b><small>Ask questions and get
+                clean, copy-ready LLM explanations.</small></button>
+            <button class="feature-card" data-go="packs"><span>▤</span><b>Study Packs</b><small>Turn your own notes into
+                summaries, flashcards and real practice quizzes.</small></button>
+            <button class="feature-card" data-go="flashcards"><span>◇</span><b>Flashcards</b><small>Review with active
+                recall and spaced repetition.</small></button>
+            <button class="feature-card" data-go="quizzes"><span>✓</span><b>Quizzes</b><small>Take saved quizzes without
+                seeing answers until submission.</small></button>
+            <button class="feature-card" data-go="email"><span>✉</span><b>Gmail</b><small>Read, search and send mail
+                after Google OAuth.</small></button>
+            <button class="feature-card" data-go="calendar"><span>▣</span><b>Calendar</b><small>Track exams, assignments
+                and deadlines.</small></button>
+            <button class="feature-card" data-go="research"><span>⌕</span><b>Research</b><small>Search current sources
+                and keep citations visible.</small></button>
+            <button class="feature-card" data-go="rooms"><span>◉</span><b>Study Rooms</b><small>Collaborate with shared
+                chat and notes.</small></button>
+            <button class="feature-card" data-go="voice"><span>◌</span><b>Voice</b><small>Speak to the assistant when
+                your browser supports it.</small></button>
+            <button class="feature-card" data-go="video"><span>▶</span><b>Videos</b><small>Find educational videos
+                without consuming Gemini quota.</small></button>
+            <button class="feature-card" data-go="developer"><span>⌘</span><b>Developer tools</b><small>Coding and interview practice.</small></button>
+          </div>
+          <div class="card">
+            <div class="section-head">
+              <div><span class="eyebrow">PRODUCTIVITY</span>
+                <h2>Today's tasks</h2>
+                <p>Private to your account.</p>
+              </div><button class="secondary" id="refreshTodosBtn">Refresh</button>
+            </div>
+            <form id="todoForm" class="inline-form"><input id="todoTitle" placeholder="Add a study task…" required
+                maxlength="200"><input id="todoDueDate" type="date" aria-label="Due date"><select id="todoPriority"
+                aria-label="Priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select><button class="primary" type="submit">Add task</button></form>
+            <div id="todoList" class="list"></div>
+            <div id="todoStats" class="muted"></div>
+          </div>
+        </section>
+
+        <section id="tutor" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">AI TUTOR · LLM</span>
+              <h1>Ask a real study question</h1>
+              <p>Your question is sent through the LLM gateway, reviewed for unsupported claims, and returned as clean,
+                copy-ready study material.</p>
+            </div>
+            <div class="section-title-actions"><span class="trust-badge">● LLM powered</span><span class="trust-badge">✓
+                Copy ready</span></div>
+          </div>
+          <div class="tutor-mode-bar">
+            <button class="mode-card active" data-tutor-mode="normal"><b>Normal</b><small>Clear explanation with
+                examples</small></button>
+            <button class="mode-card" data-tutor-mode="beginner"><b>Beginner</b><small>Simple language and small
+                steps</small></button>
+            <button class="mode-card" data-tutor-mode="socratic"><b>Socratic</b><small>Questions that guide your
+                thinking</small></button>
+            <button class="mode-card" data-tutor-mode="exam"><b>Exam</b><small>Scoring, traps and key
+                points</small></button>
+            <button class="mode-card" data-tutor-mode="interview"><b>Interview</b><small>Answer, feedback and
+                follow-ups</small></button>
+            <button class="mode-card" data-tutor-mode="revision"><b>Revision</b><small>Active recall and rapid
+                review</small></button>
+          </div>
+          <div class="card tutor-card">
+            <div class="card-title-row">
+              <div>
+                <h2 id="tutorHeading">Normal tutor</h2>
+                <p id="tutorModeDescription">Clear explanations, examples and practical next steps.</p>
+              </div>
+              <div class="tutor-status"><span class="mini-status">LIVE LLM</span><span class="mini-status">SOURCE
+                  AWARE</span></div>
+            </div>
+            <div class="toolbar"><label class="upload-chip"><input id="chatImageInput" type="file" accept="image/*">📷
+                Add image</label><span id="imagePreviewName" class="muted"></span></div>
+            <div id="chatBox" class="chat" aria-live="polite"></div>
+            <div class="composer"><textarea id="userInput" rows="3" maxlength="12000"
+                placeholder="Ask a question, paste a problem, or explain what you are stuck on…"></textarea><button
+                id="micBtn" class="icon-btn" type="button" aria-label="Use microphone">🎙</button><button id="sendBtn"
+                class="primary" type="button">Ask tutor</button></div>
+          </div>
+        </section>
+
+        <section id="packs" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">STUDY PACKS · LLM</span>
+              <h1>Turn your material into a study kit</h1>
+              <p>Use your notes or files as the source. The LLM builds a grounded summary, recall cards and a real
+                practice quiz from that material.</p>
+            </div>
+            <div class="section-title-actions"><span class="trust-badge">6 flashcards</span><span class="trust-badge">4
+                MCQs</span></div>
+          </div>
+          <div class="card pack-builder">
+            <div class="grid two">
+              <div><label class="field-label" for="studyText">Notes or textbook extract</label><textarea id="studyText"
+                  class="big-input" maxlength="100000"
+                  placeholder="Paste your notes here. Use a complete chapter, lecture or topic for the strongest pack."></textarea>
+              </div>
+              <div><label class="field-label" for="pdfInput">Files</label><input id="pdfInput" class="file-input"
+                  type="file"
+                  accept="application/pdf,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.odt,.odp,.ods,.txt,.md,.csv,.json,.html,.htm,.rtf,image/*"
+                  multiple>
+                <div class="upload-help"><b>Supported</b><span>PDF · Word · PowerPoint  · TXT 
+                   · images</span><small>Maximum 15 MB per file. Text is extracted
+                    from documents, OCR is used for image text, and the material stays tied to your account.</small>
+                </div>
+              </div>
+            </div>
+            <div class="pack-controls"><label><span>Learning style</span><select id="packStyle">
+                  <option value="balanced">Balanced mastery</option>
+                  <option value="exam">Exam focused</option>
+                  <option value="quick">Quick revision</option>
+                  <option value="deep">Deep understanding</option>
+                  <option value="interview">Interview prep</option>
+                </select></label><label><span>Difficulty</span><select id="packDifficulty">
+                  <option value="adaptive">Adaptive</option>
+                  <option value="easy">Beginner</option>
+                  <option value="medium">Intermediate</option>
+                  <option value="hard">Advanced</option>
+                </select></label><label><span>Target exam / role</span><input id="packExam" maxlength="100"
+                  placeholder="GATE, university exam, interview…"></label><label><span>Focus</span><input id="packFocus"
+                  maxlength="160" placeholder="Formulas, coding, theory, weak area…"></label></div>
+            <div class="pack-options"><span class="pack-spec">Up to 12 flashcards</span><span class="pack-spec">Up to 10
+                MCQs</span><span class="pack-spec">Memory tricks</span><span class="pack-spec">Cheat sheet</span><span
+                class="pack-spec">7-day revision</span><span class="pack-spec">Learning methods</span></div>
+            <div class="learning-loop" aria-label="Study pack learning loop">
+              <article class="loop-step active"><span>01</span>
+                <div><b>LEARN</b><small>AI Tutor · Notes · Examples · Shortcuts</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>02</span>
+                <div><b>PRACTICE</b><small>Quiz · MCQs · Problems · Challenge</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>03</span>
+                <div><b>REVISE</b><small>Flashcards · Mistakes · Memory Tricks · Active Recall</small></div>
+              </article><i>→</i>
+              <article class="loop-step"><span>04</span>
+                <div><b>ADAPT</b><small>Learning data → next study pack</small></div>
+              </article>
+            </div><button id="analyzeBtn" class="primary" type="button">Build my complete study pack</button>
+            <div id="analysisOutput"></div>
+          </div>
+        </section>
+
+        <section id="flashcards" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">FLASHCARDS</span>
+              <h1>Review what you know</h1>
+              <p>Use active recall and spaced repetition. Rate each card honestly so your review schedule adapts.</p>
+            </div><button id="refreshFlashcards" class="secondary">Refresh</button>
+          </div>
+          <div class="study-toolbar"><span id="flashcardProgress" class="muted">Loading your cards…</span><button
+              id="reviewDueOnly" class="secondary active-filter">Due only</button><button id="reviewAllCards"
+              class="secondary">All cards</button></div>
+          <div class="learning-dashboard-strip">
+            <div class="card mini-analytics">
+              <div class="card-title-row">
+                <div>
+                  <h3>Flashcard mastery</h3>
+                  <p>Known, due and review load from your saved cards.</p>
+                </div><span class="mini-status">LIVE</span>
+              </div>
+              <div id="flashcardAnalytics">
+                <p class="muted">Loading analytics…</p>
+              </div>
+            </div>
+            <div class="card mini-analytics">
+              <div class="card-title-row">
+                <div>
+                  <h3>How to review</h3>
+                  <p>Use the card as an active-recall test before revealing the answer.</p>
+                </div>
+              </div>
+              <div class="learning-rule"><b>1. Recall first</b><span>Say or write the answer before flipping.</span>
+              </div>
+              <div class="learning-rule"><b>2. Rate honestly</b><span>Again/Hard when uncertain; Good/Easy only when
+                  recall is strong.</span></div>
+              <div class="learning-rule"><b>3. Revisit weak cards</b><span>Unknown cards become the next
+                  priority.</span></div>
+            </div>
+          </div>
+          <div id="flashcardWorkspace" class="flashcard-workspace"></div>
+        </section>
+
+        <section id="quizzes" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">QUIZZES</span>
+              <h1>Practice without seeing the answers</h1>
+              <p>Take a quiz, choose an answer, submit it, then review your score and weak areas.</p>
+            </div><button id="refreshQuizzes" class="secondary">Refresh</button>
+          </div>
+          <div class="card mini-analytics quiz-insights">
+            <div class="card-title-row">
+              <div>
+                <h3>Quiz performance</h3>
+                <p>Your recent scores help decide what to revise next.</p>
+              </div><button id="refreshQuizInsights" class="secondary">Refresh</button>
+            </div>
+            <div id="quizAnalytics">
+              <p class="muted">Take a quiz to build your performance trend.</p>
+            </div>
+          </div>
+          <div id="quizLibrary" class="quiz-library"></div>
+          <div id="quizRunner" class="hidden"></div>
+        </section>
+
+        <section id="learning" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">ADAPTIVE LEARNING</span>
+              <h1>Build a plan that adapts to you</h1>
+              <p>Use exam date, subjects, available hours and weak topics to generate a personalized plan.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="grid three"><input id="planGoal" placeholder="Goal, e.g. GATE CSE preparation"><input
+                id="planExamDate" type="date"><input id="planHours" type="number" min="0.5" max="24" step="0.5"
+                value="2" placeholder="Hours/day"></div><input id="planSubjects" class="wide-input"
+              placeholder="Subjects separated by commas"><input id="planWeakTopics" class="wide-input"
+              placeholder="Weak topics separated by commas"><button id="adaptivePlanBtn" class="primary"
+              type="button">Generate adaptive plan</button>
+            <div id="adaptivePlanOutput" class="rich"></div>
+          </div>
+          <div class="grid two">
+            <div class="card">
+              <h2>Reminders</h2>
+              <div class="inline-form"><input id="reminderTitle" placeholder="Review DBMS normalization"><input
+                  id="reminderAt" type="datetime-local"><button id="addReminder" class="primary">Add</button></div>
+              <div id="reminderList" class="list"></div>
+            </div>
+            <div class="card">
+              <h2>Learning modes</h2>
+              <p class="muted">Your tutor mode changes the response strategy, not just the label.</p>
+              <div class="mode-grid"><button class="mode-card" data-tutor-mode="beginner">Beginner<small>Simple,
+                    step-by-step</small></button><button class="mode-card"
+                  data-tutor-mode="normal">Normal<small>Balanced teaching</small></button><button class="mode-card"
+                  data-tutor-mode="socratic">Socratic<small>Guided discovery</small></button><button class="mode-card"
+                  data-tutor-mode="exam">Exam<small>Scoring + traps</small></button><button class="mode-card"
+                  data-tutor-mode="interview">Interview<small>Follow-ups</small></button><button class="mode-card"
+                  data-tutor-mode="revision">Revision<small>Active recall</small></button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="email" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">EMAIL</span>
+              <h1>Gmail workspace</h1>
+              <p>Read, search, summarize and send messages after Google OAuth.</p>
+            </div><button id="connectGmail" class="primary">Connect Gmail</button>
+          </div>
+          <div class="card">
+            <div class="inline-form"><input id="emailSearch"
+                placeholder="Search Gmail, e.g. from:professor@example.com"><button id="loadMail" class="secondary">Load
+                inbox</button><button id="triageMail" class="primary">AI triage → tasks</button></div>
+            <div id="emailTriageOutput" class="rich"></div>
+            <div id="emailList" class="list"></div>
+          </div>
+          <div class="card">
+            <h2>Compose</h2>
+            <div class="grid two"><input id="mailTo" placeholder="To"><input id="mailSubject" placeholder="Subject">
+            </div><textarea id="mailBody" class="big-input" placeholder="Message"></textarea><button id="sendMail"
+              class="primary" type="button">Send email</button>
+          </div>
+        </section>
+
+        <section id="calendar" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">CALENDAR</span>
+              <h1>Events + deadlines</h1>
+              <p>Keep assignments and study commitments together.</p>
+            </div><button id="connectCalendar" class="primary">Connect Calendar</button>
+          </div>
+          <div class="card">
+            <div class="inline-form"><button id="loadEvents" class="secondary">Load next 30 days</button></div>
+            <div id="eventList" class="list"></div>
+          </div>
+          <div class="card">
+            <h2>Add deadline / event</h2>
+            <div class="grid two"><input id="eventTitle" placeholder="Exam / assignment"><input id="eventLocation"
+                placeholder="Location (optional)"><input id="eventStart" type="datetime-local"><input id="eventEnd"
+                type="datetime-local"></div><textarea id="eventDescription" class="big-input"
+              placeholder="Description"></textarea><button id="createEvent" class="primary" type="button">Create
+              event</button>
+          </div>
+        </section>
+
+        <section id="research" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">RESEARCH</span>
+              <h1>Search the live web with sources</h1>
+              <p>Research uses the configured web-grounding provider and shows returned source links.</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="inline-form"><input id="researchQuery" maxlength="500" placeholder="Research a topic…"><button
+                id="researchBtn" class="primary">Search + summarize</button></div>
+            <div id="researchAnswer" class="rich"></div>
+            <div id="researchSources" class="sources"></div>
+          </div>
+        </section>
+
+        <section id="rooms" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">COLLABORATION</span>
+              <h1>Shared study rooms</h1>
+              <p>Real-time room chat and shared notes.</p>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card">
+              <h2>Create or join</h2>
+              <div class="inline-form"><input id="roomName" maxlength="40" placeholder="Your name"><button
+                  id="createRoom" class="primary">Create room</button></div>
+              <div class="inline-form"><input id="roomCode" maxlength="16" placeholder="Room code"><input
+                  id="roomInviteToken" maxlength="64" placeholder="Invite token"><button id="joinRoom"
+                  class="secondary">Join</button></div>
+              <p id="roomStatus" class="muted">Not connected</p>
+              <div id="members" class="chips"></div>
+            </div>
+            <div class="card">
+              <h2>Room chat</h2>
+              <div id="roomChat" class="chat"></div>
+              <div class="composer"><input id="roomMessage" maxlength="2000"
+                  placeholder="Message your study group…"><button id="sendRoomMessage" class="primary">Send</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Shared workspace</h2>
+            <div class="inline-form"><input id="roomDocumentId" placeholder="Document ID to share"><input
+                id="roomDocumentTitle" placeholder="Document title"><button id="shareRoomDocument"
+                class="secondary">Share document</button></div>
+            <div class="inline-form"><input id="roomQuizTopic" placeholder="Quiz topic"><button id="createRoomQuiz"
+                class="secondary">Generate shared quiz</button><button id="askRoomTutor" class="primary">Ask room
+                AI</button></div><textarea id="sharedNotes" class="big-input" maxlength="20000"
+              placeholder="Everyone in the room can edit these notes…"></textarea>
+            <div id="roomSharedContent" class="rich"></div>
+          </div>
+        </section>
+
+        <section id="voice" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">VOICE</span>
+              <h1>Speak to your study assistant</h1>
+              <p>Uses browser speech APIs when supported by your device and browser.</p>
+            </div>
+          </div>
+          <div class="card center"><button id="voiceStart" class="voice-orb" type="button"
+              aria-label="Start voice input">🎙</button>
+            <h2 id="voiceState">Ready</h2>
+            <p id="voiceTranscript" class="muted">Press the microphone and speak.</p><div id="voiceAnswer" class="rich voice-answer"></div><button id="voiceSpeakLast"
+              class="secondary" type="button">Speak last AI answer</button>
+          </div>
+        </section>
+
+        <section id="video" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">VIDEO LEARNING</span>
+              <h1>Learn a topic visually</h1>
+              <p>Generate an LLM lesson from your material, or search real educational videos when you want an external
+                source.</p>
+            </div>
+          </div>
+          <div class="video-workspace-grid">
+            <div class="card video-ai-builder">
+              <div class="card-title-row">
+                <div>
+                  <h2>AI lesson</h2>
+                  <p>Creates a structured lesson, slides, objectives and narration from your topic or notes.</p>
+                </div><span class="mini-status">LLM GENERATED</span>
+              </div>
+              <div class="inline-form"><input id="videoQuery" maxlength="200"
+                  placeholder="Topic, e.g. binary search"><button id="generateVideoBtn" class="primary">Create
+                  lesson</button></div><textarea id="videoMaterial" class="big-input"
+                placeholder="Optional: paste the exact notes you want the lesson to follow…"></textarea>
+              <div id="generatedVideo" class="lesson-player"></div>
+            </div>
+            <div class="card video-search-builder">
+              <div class="card-title-row">
+                <div>
+                  <h2>Real videos</h2>
+                  <p>Search educational videos from YouTube. Results stay separate from the LLM lesson.</p>
+                </div><span class="mini-status">EXTERNAL SOURCES</span>
+              </div>
+              <div class="inline-form"><input id="videoSearchQuery" maxlength="200"
+                  placeholder="Search real videos"><button id="videoBtn" class="secondary">Find videos</button></div>
+              <div id="videoList" class="video-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="developer" class="section">
+          <div class="section-title">
+            <div><span class="eyebrow">CODING + INTERVIEW</span>
+              <h1>Developer and career tools</h1>
+              <p>Use the shared AI gateway for coding and interview workflows.</p>
+            </div>
+          </div>
+          <div class="tabs"><button class="tab active" data-tab="codingTab">Coding</button><button class="tab"
+              data-tab="interviewTab">Interview</button></div>
+          <div id="codingTab" class="tab-panel active card">
+            <div class="grid two"><input id="codeLanguage" value="JavaScript" placeholder="Language"><input
+                id="codeProblem" maxlength="12000" placeholder="Problem / bug description"></div><textarea
+              id="codeInput" class="codebox" maxlength="50000" placeholder="Paste your code…"></textarea>
+            <div class="button-row"><button id="solveCode" class="primary">Solve / debug</button><button id="runCode"
+                class="secondary">Run tests</button></div>
+            <div id="codeOutput" class="rich"></div>
+            <div id="runOutput" class="terminal-output"></div>
+          </div>
+          <div id="interviewTab" class="tab-panel card">
+            <div class="grid three"><input id="interviewRole" value="Software Engineer"><select id="interviewLevel">
+                <option>entry</option>
+                <option>mid</option>
+                <option>senior</option>
+              </select><input id="interviewTopic" value="general"></div><button id="newQuestion"
+              class="primary">Generate 5 questions</button>
+            <div id="interviewQuestion" class="rich"></div><textarea id="interviewAnswer" class="big-input"
+              placeholder="Write your answer…"></textarea><button id="evaluateAnswer" class="secondary">Evaluate
+              answer</button>
+            <div id="interviewFeedback" class="rich"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js?v=20260922-research-study-fixed-v6"></script>
+</body>
+
+</html>

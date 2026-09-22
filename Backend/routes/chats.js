@@ -1,0 +1,1 @@
+const router=require("express").Router();const auth=require("../middleware/auth");const c=require("../controllers/chatController");router.use(auth);router.post("/",c.create);router.get("/",c.list);router.get("/:id",c.get);router.put("/:id",c.update);router.delete("/:id",c.remove);module.exports=router;

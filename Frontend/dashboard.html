@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Smart Study Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css?v=20260920-llmux">
+</head>
+
+<body>
+    <main class="shell">
+        <header><a href="/" class="brand">✦ Smart Study AI</a>
+            <div><button id="logout" class="ghost hidden">Logout</button></div>
+        </header>
+        <section id="auth" class="auth">
+            <div class="card">
+                <h1>Your study space</h1>
+                <p>Login or create an account to save your learning progress.</p>
+                <div class="tabs"><button class="active" data-tab="login">Login</button><button
+                        data-tab="register">Register</button></div>
+                <form id="authForm"><input id="name" placeholder="Name" class="registerOnly hidden"><input id="email"
+                        type="email" placeholder="Email" required><input id="password" type="password"
+                        placeholder="Password (6+ characters)" minlength="6" required><button class="primary"
+                        type="submit" id="authSubmit">Login</button></form>
+                <p id="authError" class="error"></p>
+            </div>
+        </section>
+        <section id="app" class="hidden">
+            <div class="hero">
+                <div>
+                    <p class="eyebrow">STUDENT DASHBOARD</p>
+                    <h1>Welcome, <span id="userName">Student</span></h1>
+                    <p>Track your learning, review weak topics, and keep your study plan on track.</p>
+                </div><button id="refresh" class="primary">Refresh</button>
+            </div>
+            <div class="stats" id="stats"></div>
+            <div class="grid">
+                <section class="card">
+                    <div class="sectionHead">
+                        <h2>Weak topics</h2><span>Needs practice</span>
+                    </div>
+                    <div id="weakTopics" class="list"></div>
+                </section>
+                <section class="card">
+                    <div class="sectionHead">
+                        <h2>Due flashcards</h2><span>Spaced repetition</span>
+                    </div>
+                    <div id="dueCards" class="list"></div>
+                </section>
+                <section class="card wide">
+                    <div class="sectionHead">
+                        <h2>Recent quiz attempts</h2><span>Performance</span>
+                    </div>
+                    <div id="attempts" class="list"></div>
+                </section>
+                <section class="card wide">
+                    <div class="sectionHead">
+                        <h2>Study plans</h2><span>Goals</span>
+                    </div>
+                    <div id="plans" class="list"></div>
+                </section>
+            </div>
+        </section>
+    </main>
+    <div id="toast"></div>
+    <script src="/dashboard.js?v=20260920-llmux"></script>
+</body>
+
+</html>

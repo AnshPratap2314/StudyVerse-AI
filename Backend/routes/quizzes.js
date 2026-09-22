@@ -1,0 +1,1 @@
+const router=require("express").Router();const auth=require("../middleware/auth");const c=require("../controllers/quizController");router.use(auth);router.post("/",c.createQuiz);router.get("/",c.listQuizzes);router.get("/:id",c.getQuiz);router.put("/:id",c.updateQuiz);router.delete("/:id",c.deleteQuiz);module.exports=router;

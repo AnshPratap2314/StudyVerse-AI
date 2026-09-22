@@ -1,0 +1,1 @@
+const router=require("express").Router();const auth=require("../middleware/auth");const c=require("../controllers/documentController");router.use(auth);router.post("/",c.createDocument);router.get("/",c.listDocuments);router.get("/:id",c.getDocument);router.put("/:id",c.updateDocument);router.delete("/:id",c.deleteDocument);module.exports=router;

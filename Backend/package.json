@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Smart Study AI Assistant Backend",
+  "main": "server.cjs",
+  "scripts": {
+    "start": "node server.cjs",
+    "check": "node --check server.cjs && node --check controllers/authController.js && node --check models/GoogleIntegration.js && node --check models/AppState.js && node --check models/StudyRoom.js && node --check src/orchestrator.cjs && node --check src/ai/gateway.cjs && node --check src/ai/providers.cjs && node --check smokeTest.cjs && node --check ../Frontend/app.js && node --check ../Frontend/dashboard.js",
+    "test": "node --test tests/*.test.cjs",
+    "qa": "npm run check && npm test",
+    "smoke": "node smokeTest.cjs",
+    "ci": "npm ci"
+  },
+  "keywords": [
+    "ai",
+    "study",
+    "gemini",
+    "express",
+    "pdf"
+  ],
+  "author": "Deepak Sikhwal",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "^1.52.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "pdf-parse": "^2.4.5",
+    "ws": "^8.18.0",
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.1"
+  }
+}

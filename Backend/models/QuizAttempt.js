@@ -1,0 +1,4 @@
+const mongoose=require("mongoose");
+const answerSchema=new mongoose.Schema({questionId:{type:mongoose.Schema.Types.ObjectId,required:true},selectedAnswer:{type:String,default:""},isCorrect:Boolean},{_id:false});
+const quizAttemptSchema=new mongoose.Schema({userId:{type:mongoose.Schema.Types.ObjectId,ref:"User",required:true,index:true},quizId:{type:mongoose.Schema.Types.ObjectId,ref:"Quiz",required:true},sessionId:{type:mongoose.Schema.Types.ObjectId,ref:"StudySession"},answers:[answerSchema],score:{type:Number,min:0},totalQuestions:{type:Number,min:0},percentage:{type:Number,min:0,max:100},topicPerformance:{type:mongoose.Schema.Types.Mixed,default:{}},startedAt:{type:Date,default:Date.now},completedAt:{type:Date}}, {timestamps:true});
+quizAttemptSchema.index({userId:1,completedAt:-1}); module.exports=mongoose.model("QuizAttempt",quizAttemptSchema);

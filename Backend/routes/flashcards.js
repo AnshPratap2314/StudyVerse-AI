@@ -1,0 +1,12 @@
+const router=require("express").Router();
+const auth=require("../middleware/auth");
+const c=require("../controllers/flashcardController");
+router.use(auth);
+router.get("/due",c.due);
+router.post("/",c.create);
+router.get("/",c.list);
+router.get("/:id",c.get);
+router.put("/:id",c.update);
+router.delete("/:id",c.remove);
+router.post("/:id/review",c.review);router.post("/:id/knowledge",c.setKnowledge);
+module.exports=router;

@@ -1,0 +1,12 @@
+const router = require("express").Router();
+const auth = require("../middleware/auth");
+const c = require("../controllers/plannerController");
+router.use(auth);
+router.post("/", c.create);
+router.get("/", c.list);
+router.get("/:id", c.get);
+router.put("/:id", c.update);
+router.put("/:id/items/:itemId", c.updateItem);
+router.post("/:id/items/:itemId/complete", c.completeItem);
+router.delete("/:id", c.remove);
+module.exports = router;

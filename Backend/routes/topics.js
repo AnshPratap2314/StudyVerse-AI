@@ -1,0 +1,1 @@
+const router=require("express").Router();const auth=require("../middleware/auth");const c=require("../controllers/topicController");router.use(auth);router.get("/weak",c.weak);router.get("/strong",c.strong);router.get("/",c.list);module.exports=router;
