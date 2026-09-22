@@ -1,161 +1,284 @@
-# Smart Study AI Assistant — Integrated Team Build
+# StudyVerse AI
 
-A single integrated project combining three vertical slices with one shared AI core:
+> An AI-powered study assistant that helps students learn, practice, research, and prepare for exams in one place.
 
-- **Person 1 — AI Core:** provider gateway, model routing, multi-agent orchestration, RAG, document ingestion, reviewer, memory and observability.
-- **Person 2 — Learning System:** authentication, MongoDB models, dashboard, quizzes, flashcards, study plans, progress, analytics and tutor bridge.
-- **Person 3 — Product & Integrations:** todos, Gmail, Google Calendar, research, study rooms/WebSockets, voice, educational videos, coding, interview and resume tools.
+StudyVerse AI is a full-stack AI learning platform designed to bring study, productivity, research, and career-preparation tools into a single application.
 
-## What was fixed in the final integration
+## ✨ Features
 
-- Added a real **login/register gate** to the main application instead of leaving the core workspace anonymously accessible.
-- All authenticated feature APIs now require the user's JWT server-side.
-- Frontend API calls automatically attach the JWT and keep Google OAuth cookies.
-- Todos are now stored by **account ID**, not a browser session, so they follow the user across devices.
-- RAG documents and vector retrieval are **owner-scoped** so one user's documents are not returned to another user.
-- Centralized AI model configuration so all Gemini slots use `GEMINI_MODEL` unless explicitly overridden.
-- AI quota/rate-limit failures now stop pointless retries and automatically try configured fallback providers.
-- Frontend no longer renders raw provider JSON errors; quota/network/auth errors are converted into useful messages.
-- Rebuilt the frontend as a responsive application shell with mobile navigation, tablet layouts, compact controls and reduced-motion support.
-- Added loading/disabled states to long-running actions to prevent duplicate requests.
-- Added account-aware dashboard summary, logout, session validation and expired-session handling.
-- Kept Gmail/Calendar OAuth, research, video search, study rooms, voice, coding, interview and resume workflows connected to the integrated backend.
+### 🤖 AI Study Assistant
+- AI chat for study-related questions
+- Multiple AI tutor modes
+- Beginner-friendly explanations
+- Exam preparation
+- Socratic learning
+- Revision assistance
+- Interview preparation
+- Context-aware conversations
+- AI memory
 
-## Architecture
+### 📚 Study Tools
+- Study Pack generation
+- Notes summarization
+- Flashcard generation
+- AI-generated quizzes
+- Mind maps
+- Study plans
+- Progress tracking
+- Learning analytics
+- Spaced repetition
+- Adaptive learning
+
+### 📄 Document Analysis
+Supported inputs include:
+- PDF
+- DOCX
+- PPTX
+- PPT
+- TXT
+- Markdown
+- CSV
+- JSON
+- Images
+
+The document system extracts content, creates searchable chunks, and supports RAG-based question answering.
+
+### 🔎 AI Research
+- AI-assisted research
+- Structured research responses
+- Educational resource discovery
+- Video search
+- Research context for study workflows
+
+### 🎯 Productivity
+- Todos
+- Reminders
+- Browser notifications
+- Study planning
+- Gmail integration
+- Google Calendar integration
+
+### 👥 Study Rooms
+- Create and join study rooms
+- Real-time messaging
+- Shared notes
+- Shared quizzes
+- Room AI tutor
+- WebSocket communication
+
+### 💻 Developer Tools
+- AI coding assistant
+- Code explanations
+- Code problem solving
+- Code RAG context
+- Optional local code execution
+
+### 🧑‍💼 Career Preparation
+- Interview question generation
+- Interview answer evaluation
+- Resume review
+- Technical interview preparation
+
+### 🎙️ Voice & Multimedia
+- Voice interaction
+- Text-to-speech
+- Educational video search
+- AI-generated interactive lessons
+- Image-based AI questions
+
+## 🏗️ Architecture
 
 ```text
-                           USER
-                            |
-                            v
-                     LOGIN / REGISTER
-                            |
-                            v
-                       FRONTEND APP
-                            |
-                            v
-                      EXPRESS API
-                            |
-        +-------------------+--------------------+
-        |                   |                    |
-        v                   v                    v
-   PERSON 1 AI         PERSON 2 LEARNING    PERSON 3 PRODUCT
-   Gateway             Auth + MongoDB       Gmail/Calendar
-   Router              Dashboard            Research
-   Orchestrator        Quizzes              Todos
-   Agents              Flashcards           Rooms/WebSocket
-   RAG                  Planner              Voice
-   Reviewer             Progress             Videos
-   Memory               Analytics            Coding/Interview
-        |                                      Resume
-        +-------------------+--------------------+
-                            |
-                            v
-                  Gemini / OpenAI / Groq
+                         ┌───────────────┐
+                         │     USER      │
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                         ┌───────────────┐
+                         │ Login/Register│
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                         ┌───────────────┐
+                         │  Frontend App │
+                         └───────┬───────┘
+                                 │
+                                 ▼
+                         ┌───────────────┐
+                         │  Express API  │
+                         └───────┬───────┘
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+          ▼                      ▼                      ▼
+   ┌─────────────┐       ┌─────────────┐       ┌─────────────┐
+   │   AI Core   │       │  Learning   │       │ Integrations│
+   │             │       │   System    │       │ & Product   │
+   ├─────────────┤       ├─────────────┤       ├─────────────┤
+   │ AI Gateway  │       │ Auth        │       │ Gmail       │
+   │ Orchestrator│       │ Dashboard   │       │ Calendar    │
+   │ Agents      │       │ Quizzes     │       │ Research    │
+   │ RAG         │       │ Flashcards  │       │ Todos       │
+   │ Memory      │       │ Analytics   │       │ Study Rooms │
+   │ Documents   │       │ Study Plans │       │ Voice       │
+   └──────┬──────┘       └─────────────┘       │ Coding      │
+          │                                      │ Interview   │
+          │                                      │ Resume      │
+          │                                      └─────────────┘
+          │
+          ▼
+   ┌─────────────────────────────┐
+   │ Gemini / OpenAI / Groq     │
+   └─────────────────────────────┘
 ```
 
-The shared AI contract is:
+## 🛠️ Tech Stack
+
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+- Responsive UI
+- WebSocket client
+- Browser Web APIs
+
+### Backend
+- Node.js
+- Express.js
+- REST APIs
+- WebSockets
+- JWT Authentication
+- MongoDB
+
+### AI
+- Google Gemini
+- OpenAI
+- Groq
+- AI provider gateway
+- Model routing
+- Multi-agent orchestration
+- RAG
+- AI memory
+- Prompt-based workflows
+
+### Document Processing
+- PDF extraction
+- DOCX extraction
+- PPTX extraction
+- Text extraction
+- Image OCR
+- Document chunking
+- Vector search
+
+### Integrations
+- Gmail
+- Google Calendar
+- YouTube
+- Qdrant
+- WebSockets
+
+## 📁 Project Structure
 
 ```text
-POST /api/ai/chat
-POST /api/ai/task
-```
-
-Person 2 and Person 3 consume the shared AI layer rather than creating independent Gemini/OpenAI implementations.
-
-## Project layout
-
-```text
-Smart-Study-AI-Assistant-integrated/
+StudyVerseAi/
+│
 ├── Backend/
 │   ├── server.cjs
-│   ├── ai/                    # Person 2 bridge to Person 1 orchestrator
-│   ├── config/
+│   ├── package.json
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
 │   ├── services/
 │   ├── utils/
+│   ├── ai/
 │   ├── src/
-│   │   ├── ai/                # providers + gateway + schemas
-│   │   ├── agents/            # specialist agents
-│   │   ├── documents/         # PDF/DOCX/PPTX/TXT/image extraction
-│   │   ├── rag/               # chunking + owner-scoped vector retrieval
+│   │   ├── ai/
+│   │   ├── agents/
+│   │   ├── documents/
 │   │   ├── memory/
 │   │   ├── observability/
+│   │   ├── rag/
 │   │   └── orchestrator.cjs
 │   ├── tests/
-│   ├── smokeTest.cjs
-│   └── package.json
+│   └── smokeTest.cjs
+│
 ├── Frontend/
-│   ├── index.html             # login + main application
+│   ├── index.html
 │   ├── app.js
 │   ├── style.css
-│   └── dashboard.*
-├── FINAL_QA_NOTES.md
+│   ├── dashboard.html
+│   ├── dashboard.js
+│   └── dashboard.css
+│
+├── .gitignore
+├── package-lock.json
 └── README.md
 ```
 
-## Run locally
+## 🚀 Getting Started
 
-Requirements:
+### Requirements
 
-- Node.js 20+ recommended
+- Node.js 20+
 - npm
-- MongoDB Atlas/local MongoDB for account and learning features
-- At least one AI provider for AI features
-- LibreOffice (`soffice`) only when legacy `.ppt` extraction is required
+- MongoDB Atlas or local MongoDB
+- At least one supported AI provider
+
+Optional:
+- LibreOffice for legacy `.ppt` extraction
+- Qdrant for external vector storage
+- Google OAuth credentials
+- YouTube API key
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/deepakpandit31/StudyVerseAi.git
+cd StudyVerseAi
+```
+
+### 2. Install Backend Dependencies
 
 ```bash
 cd Backend
 npm install
-cp .env.example .env
-npm run qa
-npm start
 ```
 
-The integrated project is configured for:
+### 3. Configure Environment Variables
 
-```text
-http://localhost:5050
-```
-
-Open that URL in Safari, Chrome, Edge or another modern browser. Do **not** open `Frontend/index.html` directly with `file://`; the application is designed to run through the backend so authentication, CORS, cookies and WebSockets work consistently.
-
-## Environment setup
-
-### Required for login
+Create `Backend/.env`:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=long-random-secret
-SESSION_SECRET=another-long-random-secret
+JWT_SECRET=your_long_random_secret
+SESSION_SECRET=your_session_secret
 PORT=5050
 FRONTEND_ORIGINS=http://localhost:5050,http://127.0.0.1:5050
 ```
 
-### Required for AI
+### AI Provider
 
-Only one provider is required initially:
+At least one AI provider is required for AI features:
 
 ```env
-GEMINI_API_KEY=your_gemini_key
-GEMINI_MODEL=gemini-3.6-flash
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=your_gemini_model
 ```
 
-Optional automatic fallbacks:
+Optional providers:
 
 ```env
 OPENAI_API_KEY=
 OPENAI_MODEL=
+
 GROQ_API_KEY=
 GROQ_MODEL=
+
 AI_FALLBACK_PROVIDERS=gemini,openai,groq
 ```
 
-You do **not** need every API in `.env.example` to run the core application.
-
-### Optional services
+### Optional Services
 
 ```env
 QDRANT_URL=
@@ -169,226 +292,321 @@ GOOGLE_REDIRECT_URI=http://localhost:5050/api/google/callback
 YOUTUBE_API_KEY=
 ```
 
-- Qdrant is optional; local JSON vector storage is used when Qdrant is absent.
-- Gmail/Calendar require Google OAuth credentials.
-- YouTube API is optional; video search falls back to a normal YouTube search URL.
+> Never commit `.env` or real API keys to GitHub.
 
-## Authentication behavior
+## ▶️ Run the Application
 
-The main app starts with:
+From `Backend`:
 
-```text
-Login / Register
-      |
-      v
-JWT issued by backend
-      |
-      v
-Main Smart Study workspace
+```bash
+npm start
 ```
 
-The frontend stores the access token locally and attaches:
+Open:
+
+```text
+http://localhost:5050
+```
+
+Do not open the frontend HTML directly using `file://`. Run the application through the backend so authentication, APIs, cookies, and WebSockets work correctly.
+
+## 🔐 Authentication
+
+StudyVerse AI uses JWT-based authentication.
+
+```text
+Register
+   ↓
+Login
+   ↓
+JWT Token
+   ↓
+Authenticated Application
+```
+
+Protected requests use:
 
 ```http
 Authorization: Bearer <token>
 ```
 
-Protected feature APIs reject anonymous requests. `/api/health` remains public for deployment health checks.
+Authenticated users can access AI features, documents, RAG, quizzes, flashcards, study plans, progress, todos, study rooms, and career tools.
 
-## AI behavior and quota handling
+## 🤖 AI Architecture
 
-The AI gateway centralizes model selection and fallback handling.
+```text
+User Request
+     │
+     ▼
+AI Gateway
+     │
+     ▼
+Model / Provider Selection
+     │
+     ├── Gemini
+     ├── OpenAI
+     └── Groq
+     │
+     ▼
+AI Response
+```
+
+The shared AI layer provides common provider configuration, model routing, fallback handling, and AI services.
+
+## 🔄 AI Fallback
 
 ```text
 Request
-  |
-  v
-Selected provider/model
-  |
-  +---- success --------------------> response
-  |
-  +---- quota/rate limit ----------> fallback provider
-  |
-  +---- other temporary failure ----> bounded retry/fallback
+   │
+   ▼
+Primary Provider
+   │
+   ├── Success ──────────► Response
+   │
+   └── Temporary Failure
+              │
+              ▼
+        Fallback Provider
+              │
+              ▼
+           Response
 ```
 
-Quota errors are no longer retried repeatedly. If no configured fallback provider is available, the UI displays a clean explanation rather than dumping the provider's raw JSON error into the chat.
-
-## Document/RAG isolation
-
-Documents are stored with an `ownerId` and retrieval is filtered by that owner. This prevents authenticated users from retrieving another user's indexed documents.
-
-Supported document inputs include:
-
-- PDF
-- DOCX
-- PPTX
-- PPT (requires LibreOffice)
-- TXT
-- Markdown
-- CSV
-- JSON
-- Images
-
-## API contracts
-
-### Person 1 — AI Core
+## 📄 RAG & Document Processing
 
 ```text
-POST /api/ai/chat
-POST /api/ai/task
-POST /api/documents/upload
-POST /api/documents/ingest
-GET  /api/documents
-POST /api/rag/query
-GET  /api/ai/status
-POST /api/ai/test-models
-GET  /api/memory
-POST /api/memory
-GET  /api/conversations
+Upload Document
+      │
+      ▼
+Extract Text
+      │
+      ▼
+Clean & Chunk
+      │
+      ▼
+Generate Embeddings
+      │
+      ▼
+Vector Storage
+      │
+      ▼
+RAG Retrieval
+      │
+      ▼
+AI Answer
 ```
 
-### Compatibility APIs
+Documents are associated with authenticated users so one user's indexed documents are not returned to another user.
 
-```text
-POST /api/ask
-POST /api/analysis
-POST /api/upload
-```
+## 🔌 API Overview
 
-These remain for compatibility and route through the shared AI implementation.
-
-### Person 2 — Learning
+### Authentication
 
 ```text
 POST /api/auth/register
 POST /api/auth/login
 GET  /api/auth/me
 POST /api/auth/logout
-GET  /api/dashboard
-GET/PUT /api/users/profile
-GET/POST /api/quizzes
-POST /api/quiz-attempts/:quizId
-GET  /api/progress
-GET  /api/analytics/overview
-GET/POST /api/plans
-POST /api/tutor/chat
 ```
 
-### Person 3 — Product & Integrations
+### AI
+
+```text
+POST /api/ai/chat
+POST /api/ai/task
+GET  /api/ai/status
+POST /api/ai/test-models
+```
+
+### Documents & RAG
+
+```text
+POST /api/documents/upload
+POST /api/documents/ingest
+GET  /api/documents
+POST /api/rag/query
+```
+
+### Learning
+
+```text
+GET      /api/dashboard
+GET/PUT  /api/users/profile
+GET/POST /api/quizzes
+POST     /api/quiz-attempts/:quizId
+GET      /api/progress
+GET      /api/analytics/overview
+GET/POST /api/plans
+POST     /api/tutor/chat
+```
+
+### Productivity
 
 ```text
 GET/POST/PATCH/DELETE /api/todos
-GET  /api/google/auth
-GET  /api/gmail/messages
-POST /api/gmail/send
-GET/POST/DELETE /api/calendar/events
+```
+
+### Research & Media
+
+```text
 POST /api/research
 GET  /api/videos
+```
+
+### Career Tools
+
+```text
 POST /api/coding/solve
 POST /api/interview/question
 POST /api/interview/evaluate
 POST /api/resume/review
-POST /api/study-plan
+```
+
+### Study Rooms
+
+```text
 POST /api/rooms
 WS   /ws
 ```
 
-## Testing and regression
+## 🧪 Testing
 
-### Static/syntax QA
+Run backend QA:
 
 ```bash
 cd Backend
 npm run qa
 ```
 
-The final contract/regression suite contains **25 tests** covering:
-
-- Person 1/2/3 integration
-- authentication UI and JWT flow
-- server-side protection of feature APIs
-- frontend API contracts
-- duplicate AI endpoint detection
-- document upload contracts
-- AI provider fallback/quota behavior
-- RAG ownership isolation
-- account-scoped productivity data
-- signed session cookies
-- OAuth redirect behavior
-- Gmail scope restrictions
-- CORS, rate limits and payload limits
-- responsive frontend structure
-- provider error handling
-- required dependencies and scripts
-
-### Live smoke test
-
-After starting the backend:
+Run the smoke test after starting the server:
 
 ```bash
 npm run smoke
 ```
 
-or:
+Or:
 
 ```bash
 TEST_URL=http://localhost:5050 npm run smoke
 ```
 
-The smoke test checks public health/frontend availability and verifies that protected feature endpoints reject anonymous requests.
+Testing covers areas including authentication, JWT protection, AI integration, provider fallback, document upload, RAG isolation, API contracts, CORS, rate limiting, OAuth behavior, and frontend structure.
 
-### Browser regression checklist
+## 🔒 Security
 
-After login, test:
+- Never commit `.env`
+- Never expose API keys in frontend code
+- Use strong JWT and session secrets
+- Restrict production CORS origins
+- Keep authentication enabled for protected APIs
+- Use HTTPS in production
+- Configure OAuth redirect URLs correctly
+- Keep WebSocket origins restricted
 
-1. Register a new account.
-2. Log out.
-3. Log back in.
-4. Refresh the browser while logged in.
-5. Open the app on a narrow phone-sized viewport.
-6. Open the mobile navigation.
-7. Create, complete and delete a todo.
-8. Send an AI chat message.
-9. Trigger a deliberate AI provider error/quota response and confirm a friendly UI error.
-10. Paste notes and generate a study pack.
-11. Upload a valid PDF.
-12. Upload an invalid file and confirm a useful validation error.
-13. Create/join a study room.
-14. Send room messages and edit shared notes.
-15. Search videos with and without a YouTube API key.
-16. Test coding, interview and resume tools.
-17. Test Google OAuth only after Google credentials are configured.
-18. Open `/dashboard.html` and confirm the same login token works.
+The optional code execution feature is disabled by default. Do not expose arbitrary code execution publicly without proper sandboxing and container isolation.
 
-## Deployment notes
+## 🌐 Deployment
 
-- Never commit `.env` or real API keys.
-- Use a persistent shared database/vector store for multi-instance production deployment.
-- Register the exact deployed Google OAuth callback URL in Google Cloud.
-- Browser microphone features require HTTPS or localhost.
-- WebSockets require the deployed host/proxy to support WebSocket upgrades.
-- Keep `FRONTEND_ORIGINS` restricted to your real frontend origins in production.
+For production:
 
-## Expanded feature set
+1. Deploy the backend.
+2. Configure environment variables.
+3. Configure MongoDB.
+4. Configure your AI provider.
+5. Configure CORS origins.
+6. Configure Google OAuth redirect URLs if required.
+7. Deploy the frontend or serve it through the backend.
+8. Enable HTTPS.
+9. Verify WebSocket support for Study Rooms.
 
-The integrated build now includes:
+Browser microphone features require HTTPS or localhost.
 
-- Password reset flow with expiring reset tokens (development can expose the token in the UI; production should connect an email provider).
-- Six explicit AI tutor modes: beginner, normal, Socratic, exam, interview and revision.
-- Adaptive study planning using exam date, subjects, available hours and weak topics.
-- Email triage that classifies/summarizes mail, extracts tasks/deadlines and can create Calendar events.
-- Persistent reminders plus browser notification polling.
-- Shared study-room documents, shared AI-generated quizzes and room AI tutor.
-- AI-generated interactive educational lessons with slide/storyboard structure and browser TTS narration.
-- Code RAG context for the coding assistant and an opt-in local code runner (`ENABLE_CODE_EXECUTION=true`).
-- Multimodal Study AI chat: attach an image and ask the LLM to explain, solve or summarize it.
-- Cost-aware model routing with provider pricing estimates and usage accounting.
-- Refined responsive UI for desktop, tablet and mobile.
+## 📱 Responsive Design
 
-### Security note
-The code runner is intentionally disabled by default. Do not expose arbitrary code execution on a public deployment without a hardened sandbox/container isolation layer.
+StudyVerse AI is designed for:
+- Desktop
+- Laptop
+- Tablet
+- Mobile
 
-## Study workspace
+The frontend includes responsive navigation, mobile navigation, responsive dashboards, loading states, disabled states, and reduced-motion support.
 
-The learning area is intentionally split into AI Tutor, Study Packs, Flashcards and Quizzes. Generated cards and quizzes are persisted to the authenticated account, flashcards use spaced repetition, and quiz answers are evaluated server-side.
+## 🎓 Study Workflow
+
+```text
+Upload Notes
+     │
+     ▼
+AI Understands Content
+     │
+     ├── Summary
+     ├── Flashcards
+     ├── Quiz
+     ├── Mind Map
+     └── Questions
+            │
+            ▼
+       AI Tutor
+            │
+            ▼
+      Track Progress
+            │
+            ▼
+       Adaptive Plan
+```
+
+## 🧠 Learning System
+
+The learning system combines:
+- AI Tutor
+- Study Packs
+- Flashcards
+- Quizzes
+- Study Plans
+- Progress tracking
+- Analytics
+- Adaptive learning
+- Spaced repetition
+
+## 🛣️ Future Improvements
+
+- More AI providers
+- Better multimodal learning
+- Advanced personalized learning
+- Improved recommendation systems
+- More educational integrations
+- Better offline support
+- Mobile application
+- Advanced analytics
+- More collaboration features
+
+## 👨‍💻 Authors
+
+This project was developed collaboratively by:
+
+### Aditya Kumar
+Full Stack / AI Development
+
+### Ansh Pratap
+Full Stack / AI Development
+
+### Deepak Sikhwal
+Full Stack MERN / AI Development
+
+## 🤝 Contributors
+
+- Aditya Kumar
+- Ansh Pratap
+- Deepak Sikhwal
+
+## 📄 License
+
+This project is currently intended for educational and development purposes.
+
+Add an appropriate open-source license before distributing the project for external use.
+
+---
+
+## ⭐ StudyVerse AI
+
+**Learn smarter. Practice better. Build your future.**
